@@ -1,0 +1,58 @@
+[build-system]
+requires = ["setuptools>=45", "wheel", "setuptools-scm[toml]>=6.2"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "disfluenTOD"
+version = "0.1.0"
+description = "A toolkit for disfluency-aware task-oriented dialogue systems."
+readme = "README.md"
+requires-python = ">=3.11"
+license = {text = "MIT"}
+authors = [
+    {name = "Junseong Pyo", email = "standardstar@hanyang.ac.kr"}
+]
+dependencies = [
+    "absl-py>=0.7.0",
+    "click>=8.0.0",
+    "fuzzywuzzy>=0.17.0",
+    "numpy>=1.16.1",
+    "six>=1.12.0",
+    "loguru>=0.7.0",
+    "openai>=2.0.0",
+    "tqdm>=4.0.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "python-dotenv",
+    "pytest",
+    "ruff",
+]
+
+[tool.setuptools]
+package-dir = {"" = "src"}
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.ruff]
+line-length = 100
+target-version = "py311"
+
+[tool.ruff.lint]
+select = [
+    "E",   # pycodestyle errors
+    "W",   # pycodestyle warnings
+    "F",   # pyflakes
+    "I",   # isort
+    "N",   # pep8-naming
+    "UP",  # pyupgrade
+]
+ignore = [
+    "E501",  # line too long (handled by formatter)
+]
+
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"

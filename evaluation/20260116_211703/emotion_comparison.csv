@@ -1,0 +1,320 @@
+dialogue_id,text,context_length,ground_truth,gt_name,predicted,pred_name,match
+PMUL0479.json,TO THE RESTAURANT! JUST BOOK IT< YOU HAVE ALL OF MY INFO! thank you,18,4,abusive,0,neutral,False
+PMUL0524.json,Um sorry but can we actually go back to the restaurant again really quick. Did you even really book that for me? I never got a reference number from you...,8,2,dissatisfied,0,neutral,False
+PMUL0930.json,What is the postcode for that place?,6,0,neutral,0,neutral,True
+MUL2646.json,"Yes, it is. How about a musuem? ",6,2,dissatisfied,0,neutral,False
+MUL1550.json,"A moderate priced crossover located in the centre, nothing?",2,1,fearful,0,neutral,False
+MUL1413.json,"Oh, no, I need a train that leaves from Birmingham new street and go to Cambridge. ",2,2,dissatisfied,0,neutral,False
+MUL1438.json,I'm stuck up here in Kings Lynn and really need to get into Cambridge. Can you look up a train for me please?,0,1,fearful,0,neutral,False
+MUL1980.json,"Thank you. I also need a train to London Kings cross, arriving by 9",4,6,satisfied,0,neutral,False
+MUL1881.json,"Thanks, I need a place to go too. What about a nightclub in the west? ",8,6,satisfied,0,neutral,False
+MUL1184.json,"Thanks, that's all I need today. Sorry for making you repeat yourself like that! Have a great day, goodbye!",26,3,apologetic,0,neutral,False
+MUL0422.json,"Yes, in the centre of town.",10,2,dissatisfied,0,neutral,False
+MUL1656.json,I want to go broxbourne and I'd like to arrive by 15:30.,10,0,neutral,0,neutral,True
+MUL0141.json,"Scratch that, I'll book it myself. Now I just need to find a place to stay, a hotel with a 4 star rating.",4,4,abusive,0,neutral,False
+PMUL0329.json,No that is all. Thanks!,14,6,satisfied,0,neutral,False
+MUL0043.json,Can I try to book for 1 night then?,6,1,fearful,0,neutral,False
+MUL0825.json,"Just do what I say! I don't care what you choose! Give me the necessary information too. Then, get me a restaurant in the east that's expensive north indian food",6,4,abusive,0,neutral,False
+MUL0505.json,I'm looking for some places to go in Cambridge. Specifically some time of architecture in the east.,0,5,excited,0,neutral,False
+MUL0708.json,"Great!  Also, I'm looking for the Ashley Hotel.  Can you give me their phone number please?",8,6,satisfied,0,neutral,False
+MUL2490.json,"That stinks because I'm really craving Panasian food. But okay, can you see if there are any Italian places in that area?",10,1,fearful,0,neutral,False
+MUL0456.json,I was first wondering the price of that train and what time it arrived. Oh! I also forgot to ask for the postcode of the Gallery!,8,3,apologetic,0,neutral,False
+MUL2633.json,Hm. That isn't it. I think it is called city centre north. Can you search again please?,2,2,dissatisfied,0,neutral,False
+MUL2012.json,"No, actually, I'm not ready to book yet.  That is all I need for today.  Thanks.  Bye.",18,3,apologetic,0,neutral,False
+MUL1927.json,"Help! I need to find something to do, I'm super bored. I'm on the west side of the city, can you help me find somewhere to go?",0,1,fearful,0,neutral,False
+PMUL0521.json,Why do you need to know my preference? You already booked me a table at michaelhouse cafe...,8,4,abusive,0,neutral,False
+PMUL0116.json,i would really enjoy some international food. ,12,5,excited,0,neutral,False
+MUL0922.json,Okay thank you for your help.,18,6,satisfied,0,neutral,False
+PMUL1163.json,"I'm sorry, I know I said Thursday, but I will actually be leaving on Wednesday. Can you check for that day instead?",10,3,apologetic,0,neutral,False
+PMUL0029.json,I think we're jumping way ahead of ourselves here. Let's start afresh. Please get me the address to the acorn and then we can proceed with getting a taxi,16,2,dissatisfied,0,neutral,False
+MUL2364.json,"Great, thanks! That's all I need today. You've been a wonderful help. ",10,6,satisfied,0,neutral,False
+MUL1328.json,"Oh, wait!  While I have you, I can go ahead and check on hotels.  I need a hotel with free parking.",8,3,apologetic,0,neutral,False
+MUL2469.json,"Hi, I am traveling to Cambridge and I am looking for things to do in the city centre.  Can you help me find something to do?",0,5,excited,0,neutral,False
+PMUL0427.json,"Ok, I think that's it. Thanks for your help.",20,6,satisfied,0,neutral,False
+MUL2482.json,Are there no molecular gastronomy restaurants in the West side or in the entire city? ,6,1,fearful,0,neutral,False
+MUL2111.json,"No, that was everything I needed.  Thank you for your help.",12,6,satisfied,0,neutral,False
+MUL1609.json,"Actually, I wasn't very clear before. I apologize. I need to arrive in Cambridge by 18:45. ",6,3,apologetic,0,neutral,False
+MUL2383.json,That sounds interesting. Can you tell me their phone number and the cost of entrance?,8,5,excited,0,neutral,False
+MUL1437.json,"Hmm, can you see if there might be an expensive restaurant that serves specifically ""north african"" food in the centre of town? ",8,1,fearful,0,neutral,False
+PMUL0526.json,I am looking for a restaurant in the centre of town,0,0,neutral,0,neutral,True
+PMUL0246.json,i also want a taxi to get to the hotel after the restaurant,12,0,neutral,0,neutral,True
+PMUL0396.json,I really want jamaican food.  Can you check another area?  If you find one it should be expensive.  If not I'll try Thai in the centre.,4,1,fearful,0,neutral,False
+PMUL0850.json,"Hi, I'm going to be visiting soon, and I am interested in trying a restaruant called Curry Prince.  Could you give me more information about it? ",0,5,excited,0,neutral,False
+MUL2467.json,"No, maybe a museum instead. Are there any of those?",2,1,fearful,0,neutral,False
+MUL0918.json,I'm sorry I did not want British food.  Are there any chinese restaurants instead located in the centre area?,8,3,apologetic,0,neutral,False
+MUL2527.json,Thats great thanks.  I am also looking for a college in the centre to visit- can you make a recommendation?,6,6,satisfied,0,neutral,False
+MUL2642.json,"Okay, I'd like to find an entertainment place in the south.",18,5,excited,0,neutral,False
+MUL2385.json,Are there any nightclubs?,6,0,neutral,0,neutral,True
+PMUL0863.json,Yes can you please book that for me?,12,0,neutral,0,neutral,True
+PMUL0890.json,"Before I continue with the train details, was Travellers Rest booked? I didn't get a reference number.",14,2,dissatisfied,0,neutral,False
+MUL2528.json,"Actually, I'd like some information about an attraction in the centre dealing with multiple sports.",4,3,apologetic,0,neutral,False
+MUL2505.json,Thank you so much that's all i need.,10,6,satisfied,0,neutral,False
+PMUL0628.json,It will be the same day as the booking and I need to arrive by 09:30,10,0,neutral,0,neutral,True
+PMUL0074.json,"Hmm.. okay, how about moderate?  Big thing I guess is free parking and a 3 star rating.",12,1,fearful,0,neutral,False
+PMUL1446.json,I'm so sorry. I need to leave Cambridge after 13:00 on Tuesday and I'm going to Ely. I need 6 tickets.,12,3,apologetic,0,neutral,False
+MUL0896.json,"I'm sorry, I don't know what came over me. I'm just looking for a museum in town.",2,3,apologetic,0,neutral,False
+MUL0178.json,"Actually, I'd like a moderate hotel in the centre with free wifi. I need to book it for 3 people for 3 nights starting Sunday. And a reference number please?",12,2,dissatisfied,0,neutral,False
+PMUL0460.json,Are you saying that there isn't even a cheap 4 star guesthouse on the east side? What kind of city is this?,8,4,abusive,0,neutral,False
+MUL0362.json,Thank you that's all the information I need.,12,6,satisfied,0,neutral,False
+PMUL0649.json,Great.  I will be leaving London Kings Cross and want to get to Cambridge by 11:45 the day I eat at the restaurant.,6,5,excited,0,neutral,False
+MUL1158.json,"Actually, I'd like to book there Monday for 1 night with 8 people.",10,3,apologetic,0,neutral,False
+PMUL0648.json,I'm sorry I don't know what you're talking about. I have gotten everything I need. ,20,2,dissatisfied,0,neutral,False
+MUL1718.json,"Hi, I'd like to find some place to go in the east. What's good to visit?",0,5,excited,0,neutral,False
+MUL2677.json,"Please, I am looking for some entertainment when I visit next week. Do you have any suggestions?",0,5,excited,0,neutral,False
+MUL0527.json,Great thank you that should be all,10,6,satisfied,0,neutral,False
+MUL0874.json,Great! May I have their contact number?,24,6,satisfied,0,neutral,False
+MUL0907.json,Could we try for Tuesday at 12:15 please.,4,1,fearful,0,neutral,False
+MUL2681.json,Yes that sounds good may I have the phone number please?,2,0,neutral,0,neutral,True
+PMUL0997.json,just for one person. i'm a sad and lonely person. do you want to join me for dinner??,6,1,fearful,0,neutral,False
+PMUL0005.json,The restaurant reservation is at 17:15,18,0,neutral,0,neutral,True
+PMUL0433.json,No Tuscan restaurants? I also like Italian food. Anything in the cheap price range?,8,1,fearful,0,neutral,False
+MUL1231.json,Can you help me find a place to eat located in the centre that serves british food?,0,0,neutral,0,neutral,True
+MUL1191.json,"Yes, I need it for 4 people for 3 nights starting Thursday. ",4,0,neutral,0,neutral,True
+MUL0001.json,I'd really like to take my client out to a nice restaurant that serves indian food.,0,5,excited,0,neutral,False
+MUL2377.json,A museum sounds great. Can you get the phone number for one? ,8,6,satisfied,0,neutral,False
+PMUL0382.json,"Wow, really? Could you try again please?",8,2,dissatisfied,0,neutral,False
+MUL1459.json,"Sounds great, I'd like to book for the same number of people at 10:00 on the same day.",12,6,satisfied,0,neutral,False
+MUL2422.json,I really have a craving for some good chinese food. Can you suggest a place? ,0,5,excited,0,neutral,False
+PMUL1285.json,"If at all possible, I would like to leave after 16:45.",4,0,neutral,0,neutral,True
+PMUL0205.json,I misspelled it earlier by accident but the time was 13:15. So can you book it now?,14,3,apologetic,0,neutral,False
+MUL1614.json,What? Could you please make the reservation?,16,2,dissatisfied,0,neutral,False
+PMUL1117.json,"Oh, well I really wanted to visit the centre. Maybe you could find me a park instead? One in the centre of town?",12,1,fearful,0,neutral,False
+MUL0550.json,That is everything I needed for now. Thank you!,12,6,satisfied,0,neutral,False
+MUL0250.json,I also need a train leaving from Cambridge on Friday.,10,0,neutral,0,neutral,True
+MUL0535.json,That is unfortunate. Could you provide me with their phone number so I can ask them myself?,4,1,fearful,0,neutral,False
+MUL1038.json,No preference on location but I would like a hotel. I would also like moderate pricing.,6,0,neutral,0,neutral,True
+PMUL0294.json,Could you just find me the best guesthouse to book.,6,2,dissatisfied,0,neutral,False
+MUL1582.json,Hi! My friends told me about a restaurant called the nirala. What can you tell me about it?,0,5,excited,0,neutral,False
+MUL0844.json,"Hi, can you help me find an architecture based attraction to go to?",0,0,neutral,0,neutral,True
+MUL1739.json,That sounds perfect.  What is the phone number?  And is there an entrance fee?,10,6,satisfied,0,neutral,False
+PMUL0329.json,"Yes, please! ",10,5,excited,0,neutral,False
+PMUL0113.json,Hello I am new to Cambridge and was wondering about good 4 star hotels with free wifi. Any suggestions?,0,5,excited,0,neutral,False
+MUL1147.json,That sounds great. Can I please have the phone number?,2,6,satisfied,0,neutral,False
+MUL1445.json,La Mimosa sounds interesting. That's all I needed. Thanks!,4,6,satisfied,0,neutral,False
+MUL0841.json,"Nevermind, I actually don't need one.",10,3,apologetic,0,neutral,False
+PMUL1304.json,Thank you for all your help.,12,6,satisfied,0,neutral,False
+PMUL0833.json,Great Please provide the reference number and then let me know about the restaurant.,8,6,satisfied,0,neutral,False
+MUL1400.json,"I don't really have a preference, so surprise me!",4,5,excited,0,neutral,False
+MUL2416.json,"Yes, thanks! I also need a table at La Raza, please. Tuesday, 3 people, at 19:00.",8,6,satisfied,0,neutral,False
+MUL2630.json,There are no expensive hotels in the centre area with a star rating of 4?  Can you double-check?,6,2,dissatisfied,0,neutral,False
+PMUL0285.json,"No thank you, I just need the address, phone number and area.",12,0,neutral,0,neutral,True
+MUL1365.json,I really want to stay there so can I get it for one night?,8,1,fearful,0,neutral,False
+MUL0952.json,"Actually,  I would prefer the cinema.",2,0,neutral,0,neutral,True
+PMUL1484.json,"Hi, I need to catch a train from Stevenage to Cambridge.",0,0,neutral,0,neutral,True
+PMUL0817.json,"Actually I need to arrive by 11:45, sorry.  What's the closest arriving to that time?",8,3,apologetic,0,neutral,False
+MUL1791.json,"No, you have helped me tremendously.  Thank you!",12,6,satisfied,0,neutral,False
+PMUL1400.json,Is that the newest theatre?  I want to visit some local places.,12,5,excited,0,neutral,False
+MUL2008.json,"Can you try again, please? I never told you how many nights we need. We'd like to arrive Wednesday and stay for 5 nights. We're a party of 7.",6,2,dissatisfied,0,neutral,False
+PMUL0016.json,"I am actually looking for a hotel to book, not a guesthouse. I need a hotel in the center with free parking.",14,2,dissatisfied,0,neutral,False
+PMUL0445.json,I'll be starting my stay on sunday and it'll be 3 nights and 6 people,6,0,neutral,0,neutral,True
+MUL1160.json,"No, that is all that I needed.  Thank you for your help!",10,6,satisfied,0,neutral,False
+PMUL0852.json,I just told you! sunday! Now please go on and book and send me the reference number ,16,4,abusive,0,neutral,False
+MUL0127.json,"I don't need a reservation, I just need the postcode.",14,2,dissatisfied,0,neutral,False
+MUL1834.json,"Sounds fun, can I get entrance fee, address, and postcode.",4,5,excited,0,neutral,False
+PMUL0599.json,"Can I get a table for 1, please? I know it sounds sad, but I just don't have any friends to travel with.",12,1,fearful,0,neutral,False
+PMUL1318.json,I would like to leave Stansted Airport to go to Cambridge and arrive by 16:15. ,4,2,dissatisfied,0,neutral,False
+MUL1983.json,"I'm so bored, can you find me some kind of entertainment in the city centre please?",0,1,fearful,0,neutral,False
+MUL1228.json,I'mLOOKING FOR THE peking restaurant WHAT TYPE OF FOOD DOES IT SERVE AND I ALSO NEED THE ADDRESS,2,4,abusive,0,neutral,False
+MUL0637.json,Thank you very much for all of your help today. ,12,6,satisfied,0,neutral,False
+PMUL0955.json,"Oh, that's too bad.  I do need something in the center.  Is there any British food?",10,1,fearful,0,neutral,False
+MUL1397.json,"Yes, I'd love to eat somewhere that serves British food so I can get the full experience, you know?",8,5,excited,0,neutral,False
+MUL0288.json,I think I forgot to add that I will need the booking for 3 people please. Will you modify the booking for me?,6,3,apologetic,0,neutral,False
+MUL1800.json,I need a train that is departing from cambridge and should leave on sunday.,0,0,neutral,0,neutral,True
+MUL0676.json,How very upsetting. Could you try for one night?,4,1,fearful,0,neutral,False
+MUL2237.json,Does the Lensfield Hotel include parking?,2,0,neutral,0,neutral,True
+PMUL0048.json,The reference number is great but it's going to be hard to find if I don't know the name. Can you tell me the name of the hotel?,14,2,dissatisfied,0,neutral,False
+MUL0133.json,Is that a 4-star hotel? I do prefer a 4-star place.,2,0,neutral,0,neutral,True
+MUL2331.json,You have been a great help!  Thank you!  Goodbye. ,22,6,satisfied,0,neutral,False
+PMUL0564.json,Wow! No barbeque restaurants?  I need something moderately priced then.  Can you make a reccommendation?,2,1,fearful,0,neutral,False
+MUL1455.json,I'll actually be departing from Leicester. What do you have available from there?,4,2,dissatisfied,0,neutral,False
+PMUL0570.json,Hey!  Yeah I am looking for a cheap place to eat in Cambridge.  Particularly interested in international food.,0,5,excited,0,neutral,False
+PMUL0769.json,"I'm not ready to reserve a table just yet, but could you give me the address, phone, and postcode for The Slug and Lettuce, just because its name is so awesome?",10,5,excited,0,neutral,False
+PMUL1131.json,Thank you. I also need to find a place to go in the centre of town. The type of attraction should be entertainment.,10,5,excited,0,neutral,False
+PMUL0023.json,I need a train after 14:15 from birmingham new street and need to go to cambridge and leave on tuesday,2,0,neutral,0,neutral,True
+PMUL0991.json,"I need a restaurant. I've heard Nandos recommended, could you give me more information about it?",0,0,neutral,0,neutral,True
+PMUL0399.json,"I'm sorry, I am mistaken. I will not need you to book a reservation for me. I will need the area, address, and post code please. ",10,3,apologetic,0,neutral,False
+PMUL0329.json,"Oh, that's a shame. Okay, can you try the same time on Friday instead, please?",12,1,fearful,0,neutral,False
+MUL2465.json,I still need the reference number.,4,2,dissatisfied,0,neutral,False
+MUL1999.json,No thank you. I do need to find a museum to visit though.,6,0,neutral,0,neutral,True
+MUL0310.json,"I would not. I prefer this place to be expensive, have modern eclectic tastes, and be located north.",2,2,dissatisfied,0,neutral,False
+PMUL0460.json,"I think you need to pay more attention, it's your job to be alert. Do they all have free internet?",10,4,abusive,0,neutral,False
+MUL0421.json,I am looking for places to go in the centre of town. I would like some type of architecture attraction.,0,0,neutral,0,neutral,True
+PMUL1305.json,"i don't want that museum, i hate technology. i want to destroy this computer i'm using.",8,4,abusive,0,neutral,False
+MUL1377.json,"If neither restaurant is available for 13:30, can you try 14:30?  It's later than I wished, but I guess that can't be helped. ",20,1,fearful,0,neutral,False
+MUL1745.json,I will be going to Cambridge from Kings Lynn. Should have clarified before.,2,3,apologetic,0,neutral,False
+PMUL1033.json,I will be departing out of Stevenage.  ,2,0,neutral,0,neutral,True
+MUL0694.json,i need it for 3 people!,16,2,dissatisfied,0,neutral,False
+MUL1963.json,"Okay fantastic, that's all I needed today, thank you!",8,6,satisfied,0,neutral,False
+MUL1203.json,I need a restaurant serving International Food in the East  Thursday at 15:15 for one person.  Can you do that for me?,22,2,dissatisfied,0,neutral,False
+MUL2568.json,No that was it. Thanks for your help!,16,6,satisfied,0,neutral,False
+MUL2325.json,Are you sure the entrance fee isn't listed? It should be. ,12,2,dissatisfied,0,neutral,False
+MUL1028.json,"What is the address, please?",12,2,dissatisfied,0,neutral,False
+MUL2510.json,I just need a 3 star hotel in the north center.,8,2,dissatisfied,0,neutral,False
+MUL0900.json,No. Hmm. What about a concerthall?,8,1,fearful,0,neutral,False
+MUL1231.json,The cambridge chop house sounds good. Could you book it for 5 people at 19:45 on monday?,6,0,neutral,0,neutral,True
+MUL0927.json,That is too bad.  Would there be any theatres?,6,1,fearful,0,neutral,False
+MUL2440.json,It is a special occasion so it can be expensive!,6,5,excited,0,neutral,False
+MUL0846.json,Great. I am also looking for something to do on the West side of town. Any suggestions? I will need the entrance fee and postcode and the type of attraction.,6,5,excited,0,neutral,False
+PMUL1286.json,Can you call the police because my purse was snatched as i sitting on this bench talking to you.,12,1,fearful,0,neutral,False
+PMUL1377.json,No.  The train needs to leave after 16:45.,16,2,dissatisfied,0,neutral,False
+MUL2495.json,"Hello, I'm looking for places to go that is a type of entertainment. ",0,0,neutral,0,neutral,True
+MUL0961.json,"Hmm, well I am really wondering what the Funky Fun House is as for as attraction type. It doesn't give any additional info on that?",16,1,fearful,0,neutral,False
+MUL1916.json,"I would like to arrive by 14:15, sorry for the confusion!",12,3,apologetic,0,neutral,False
+MUL0199.json,Tandoori palace has a catchy name. Could you book me a table there for the same group of people on the same day at 17:15?,8,5,excited,0,neutral,False
+PMUL0574.json,"I'ma wine lover, so darrys cookhouse and wine shop  sounds interesting, can i get the postal code for that? ",4,5,excited,0,neutral,False
+MUL2679.json,I need something is the center area of town. ,10,2,dissatisfied,0,neutral,False
+PMUL0737.json,I need to depart whichever train gets me to Cambridge closest to 08:30 am.,4,2,dissatisfied,0,neutral,False
+MUL1157.json,I guess you can try for four nights.,8,2,dissatisfied,0,neutral,False
+PMUL1526.json,How about something in the expensive price range with free wifi?,10,0,neutral,0,neutral,True
+MUL1613.json,Thank you that is all I needed today. ,12,6,satisfied,0,neutral,False
+PMUL0703.json,it's for the same group of people,12,0,neutral,0,neutral,True
+MUL0089.json,I'mlooking for an italian restaurant.  I also need it to be near the center of town.,0,0,neutral,0,neutral,True
+MUL2138.json,"Thanks, hate to bug you again but I need a 4 star place to stay that has free wifi and parking.",8,6,satisfied,0,neutral,False
+PMUL0376.json,"Aww, that's a bummer. I was really wanting Irish food. How about Indian food? I could go for some good curry. ",8,1,fearful,0,neutral,False
+PMUL0040.json,Maybe I could stay in the north.  Can you please look there for a 2 star hotel that includes free wifi?,4,1,fearful,0,neutral,False
+PMUL0845.json,"Wait, I need to change the booking to friday.",4,3,apologetic,0,neutral,False
+PMUL0318.json,You should have booked it last time you just didn't want to so skipped it. ,8,4,abusive,0,neutral,False
+MUL0008.json,Yes that is correct. Thank you!,24,6,satisfied,0,neutral,False
+PMUL1478.json,No. I need to go catch a plane.,8,2,dissatisfied,0,neutral,False
+MUL1957.json,"Hmm, that kind of stinks. Well, how about a theatre instead? ",8,1,fearful,0,neutral,False
+MUL1285.json,"Yes, please. I would like information about the Ashley Hotel.  ",4,6,satisfied,0,neutral,False
+PMUL0403.json,"I need to get to the restaurant by the reservation time, isn't it obvious?",18,4,abusive,0,neutral,False
+MUL1827.json,Can you verify the departure time for that train again please? ,8,2,dissatisfied,0,neutral,False
+PMUL0874.json,Let's keep looking in the centre area for now. Perhaps you can list some other available cuisines.,6,1,fearful,0,neutral,False
+PMUL0677.json,No.  The train should leave on Sunday as I said.,4,2,dissatisfied,0,neutral,False
+PMUL0019.json,"I'm sorry, I'm just looking for information. Could you tell me the area, food type, and post code for that restaurant?",2,3,apologetic,0,neutral,False
+MUL1158.json,Thank you.  I had a friend recommend a hotel called the City Centre North B and B.  Can you tell me if there are any rooms available there?,6,5,excited,0,neutral,False
+PMUL0724.json,that should be after 16:15. book for 6 people and give me the  reference number please,4,0,neutral,0,neutral,True
+MUL0480.json,Great that's all the information I need!,8,6,satisfied,0,neutral,False
+MUL2537.json,I am coming to Cambridge soon to see the many local attractions. ,0,5,excited,0,neutral,False
+PMUL0891.json,"Sounds delicious. Yes, for 13:45 on the same Friday for the two of us, please.",10,5,excited,0,neutral,False
+MUL0359.json,Actually can I change that to after 13:45 and may I also get the reference number please?,8,3,apologetic,0,neutral,False
+MUL2528.json,"Great, and what is the address?  Also, can I just confirm that University Arms Hotel is actually a hotel?  I don't like guest houses.",10,6,satisfied,0,neutral,False
+PMUL1097.json,Is there any place to go swimming here?,0,0,neutral,0,neutral,True
+PMUL1449.json,No thanks. That gives me all I need. Take care. Goodbye. ,12,6,satisfied,0,neutral,False
+MUL2554.json,"Surprise me! I'd like the address, fee and postcode.",2,5,excited,0,neutral,False
+PMUL1312.json,Yes.  May I please get a recommendation for a museum in the centre of town?,6,5,excited,0,neutral,False
+PMUL1257.json,A museum is more of my thing. Recommend one and send me the phone number please,8,5,excited,0,neutral,False
+MUL1038.json,"I'm sorry, I am actually looking for the postcode of King's College. Could you provide that for me?",2,3,apologetic,0,neutral,False
+PMUL1050.json,"Actually, I need to book a train departing from Cambridge.",6,3,apologetic,0,neutral,False
+MUL1640.json,Thanks. A friend told me about a restaurant called the rice boat. Do you know it?,6,6,satisfied,0,neutral,False
+MUL2095.json,Yes. I need a train from Ely to Cambridge.,10,0,neutral,0,neutral,True
+PMUL0950.json,Actually I need a booking for 2 people total not just me.,6,3,apologetic,0,neutral,False
+PMUL0285.json,I do need the taxi to get to Curry Garden by the booked time of 14:30. I'm a little scatter brained today.  Thank you for clarifying.,20,3,apologetic,0,neutral,False
+PMUL0116.json,I really am interested in a 4 star hotel and would rather not settle for a 2 star hotel.,4,1,fearful,0,neutral,False
+MUL2679.json,No thanks. I meant that I need a hotel in the centre. Preferably 4 stars. ,12,2,dissatisfied,0,neutral,False
+PMUL0919.json,I already told you how many people. are you paying attention?,6,4,abusive,0,neutral,False
+MUL0666.json,"Shoot.  Well, okay, how about two nights?",22,1,fearful,0,neutral,False
+MUL2625.json,Nevermind.  Do you have info on gallery at twelve a high street.,8,1,fearful,0,neutral,False
+MUL1282.json,Help! I am hungry and need a cheap restaurant in the centre.,0,1,fearful,0,neutral,False
+MUL1377.json,No how about trying another restaurant for the same time.,16,2,dissatisfied,0,neutral,False
+MUL0312.json,I'm sorry that train won't work. I need to depart from Cambridge and go to Ely.,10,2,dissatisfied,0,neutral,False
+PMUL0199.json,I need the Bridge Guest House for 3 people. I forgot to include that.,14,3,apologetic,0,neutral,False
+MUL2322.json,Not really. How about a place that has Mexican food?,2,2,dissatisfied,0,neutral,False
+PMUL0795.json,No thank you. Could I get a price on those tickets though?,12,0,neutral,0,neutral,True
+PMUL0775.json,that is it for today. have a god day,12,6,satisfied,0,neutral,False
+PMUL0014.json,"No, I would like to dine in the north, but can you search for european food instead?",6,3,apologetic,0,neutral,False
+PMUL0875.json,Someone recommended me a place called cafe uno. Do you have any information about it?,6,5,excited,0,neutral,False
+MUL1104.json,"Ok, well lets try if for just one night then.",6,1,fearful,0,neutral,False
+MUL2352.json,"I would like to get information about some tourist attractions in Cambridge, especially those located in town.",0,0,neutral,0,neutral,True
+MUL1737.json,I am also interested in places to go in town centre.  Can you offer me some ideas?,6,5,excited,0,neutral,False
+MUL1774.json,"I'm not really picky, just something fun. What's your favorite?",8,5,excited,0,neutral,False
+MUL2099.json,"Oh, I completely forgot to mention that I will also need a hotel that has free parking. Any of the 7 you said have this option?",10,3,apologetic,0,neutral,False
+MUL0883.json,"Hello, I'm sight seeing in Cambridge and I'm looking for somewhere to eat on the westside.",0,5,excited,0,neutral,False
+PMUL0803.json,Good eve! I'm looking for a nice place to have a spot of afternoon tea.,0,5,excited,0,neutral,False
+MUL2500.json,Darn! I really wanted to go to the cinema. Is there a park located in that area?,8,1,fearful,0,neutral,False
+MUL2548.json,Hello! I'm traveling to Cambridge soon and would love to visit a concerthall in the centre of town. Can you help?,0,5,excited,0,neutral,False
+MUL2044.json,I'm exhausted. Can you find me a guesthouse somewhere on the east side of town?,0,1,fearful,0,neutral,False
+PMUL0937.json,Oh really? I was hoping to eat expensive German cuisine in the northern part of town.,2,1,fearful,0,neutral,False
+MUL0912.json,I am looking forward to trying local restaurants but would like help finding a place to go in town. I would like it to be in the south and a swimmingpool,0,5,excited,0,neutral,False
+MUL0288.json,Please modify the booking for three people please.,8,2,dissatisfied,0,neutral,False
+MUL1546.json,Thank you. I'm also looking for more information on a restaurant called golden house. Is there anything you can tell me about it?,6,6,satisfied,0,neutral,False
+MUL2084.json,"I'm sorry, I changed my mind. I don't need a room booked. I just need their address.",16,3,apologetic,0,neutral,False
+MUL2325.json,Thank you so much for all your help. That will be everything today.,14,6,satisfied,0,neutral,False
+MUL2395.json,I am planning a trip to town and want to sight see a bit. Can you let me know some attractions I may be interested in?,0,5,excited,0,neutral,False
+MUL0458.json,Sorry. I am interested in finding a museum to attend and would need the postcode and phone number.,10,3,apologetic,0,neutral,False
+MUL0979.json,"Oh, wait. I'm so sorry. Before we book a taxi, can you provide me with the phone number to the art museum?",16,3,apologetic,0,neutral,False
+MUL1818.json,"Oh, wait, one more thing. Can you help me find a train?",4,3,apologetic,0,neutral,False
+MUL1152.json,"Oh dear.  Can you try one more time? Moderate guest house, free wifi and parking, for 1 night, Friday, 4 people?  I really need this room.",18,3,apologetic,0,neutral,False
+PMUL0752.json,I need to find a train leaving after 21:30 from Cambridge.,0,0,neutral,0,neutral,True
+PMUL0740.json,i'll ask you again: what are my choices?,8,4,abusive,0,neutral,False
+PMUL1042.json,"Please just tell me the price, travel time and the train ID",4,2,dissatisfied,0,neutral,False
+PMUL0458.json,"Actually, I apologize for not being more specific, I want to stay in a guesthouse",8,3,apologetic,0,neutral,False
+PMUL0251.json,I told you Tuesday can I speak to a manager you are not paying attention.,6,4,abusive,0,neutral,False
+MUL0491.json,"I would like the departure time for the train please, I never got it. ",12,2,dissatisfied,0,neutral,False
+MUL0863.json,"I'm sorry - I'd really like the name of a British restaurant in city center, I don't mind what price but please do tell me what the price is.",10,3,apologetic,0,neutral,False
+MUL0390.json,Uh... you alright? I guess I can do it myself... ,6,4,abusive,0,neutral,False
+MUL0399.json,"That's all I needed, thank you.",16,6,satisfied,0,neutral,False
+PMUL1480.json,NO! I said 16:45. Arrive by 16:45. Try again.,14,4,abusive,0,neutral,False
+MUL0419.json,That sounds interesting; can you suggest something else?,8,5,excited,0,neutral,False
+PMUL1201.json,That's disappointing. Can you recommend a taxi or bus service? ,4,1,fearful,0,neutral,False
+PMUL1102.json,I am planning a trip and need to book a train to Birmingham.,0,0,neutral,0,neutral,True
+MUL0970.json,"No, that's it. Thank you for your service!",14,6,satisfied,0,neutral,False
+MUL0967.json,Sounds great. What is the address?,2,5,excited,0,neutral,False
+MUL0474.json,I just need the departure time and train ID plase,10,0,neutral,0,neutral,True
+MUL2406.json,"I prefer the Nandos in the City Center. Also, I need information about museums or art galleries in the west.",4,0,neutral,0,neutral,True
+MUL1120.json,"I was really hoping for something in the west, what other attractions are available in the west area?",14,1,fearful,0,neutral,False
+PMUL0472.json,"The hotel doesn't have to be in the centre, just a 2 star hotel type with free parking and wifi.",10,2,dissatisfied,0,neutral,False
+MUL0711.json,Sorry. Monday is what I want.,10,3,apologetic,0,neutral,False
+MUL2441.json,"I have a taste for British food tonight, can you find me a place to eat?",0,5,excited,0,neutral,False
+PMUL0561.json,I need one close to centre of town,10,0,neutral,0,neutral,True
+MUL1072.json,I would like to have the reference number for the room booking please.,6,2,dissatisfied,0,neutral,False
+PMUL0107.json,"Please check again for a cheap Turkish restaurant in the centre. If not, try Indian food. ",14,2,dissatisfied,0,neutral,False
+PMUL0144.json,just find me the phone number and postcode i'll book it myself,16,4,abusive,0,neutral,False
+PMUL0355.json,Does that also have free parking?  And I forgot to mention I'd prefer a guesthouse.,2,3,apologetic,0,neutral,False
+MUL2325.json,That is disappointing.  How about some French food?,4,1,fearful,0,neutral,False
+MUL2406.json,Can I get a contact number at least?,14,2,dissatisfied,0,neutral,False
+PMUL0056.json,"Oh, actually I'm looking for a great place to dine also. Can you help me with that? ",6,3,apologetic,0,neutral,False
+MUL1969.json,"I'd like a train leaving from London Liverpool Street on Wednesday, please.",0,0,neutral,0,neutral,True
+PMUL0968.json,"Actually, sorry I got ahead of myself. I still want help booking a train that goes to kings lynn on friday after 13:00. I want to book for 5 people.",8,3,apologetic,0,neutral,False
+MUL0636.json,Are there any other cheap guesthouses in the north with free parking? My schedule is inflexible I'm afraid.,12,1,fearful,0,neutral,False
+MUL2237.json,I'm so tired. Really need a place to lay my head for the nights. Can you find me some 3-star lodgings somewhere in the south?,0,1,fearful,0,neutral,False
+MUL1162.json,I'm visiting Cambridge and looking to do the tourist thing!  I'm interested in information about potential nightclubs in the centre of town!,0,5,excited,0,neutral,False
+MUL2581.json,"Does it have free parking, I really don't need free parking, and I worry about security at the places that do have free parking.",10,1,fearful,0,neutral,False
+PMUL0222.json,what area is it in?,8,0,neutral,0,neutral,True
+MUL1543.json,Can you help me find a train going to Stevenage and leaving Thursday instead?,6,3,apologetic,0,neutral,False
+PMUL0158.json,"On second thought, I'd like to go with Nirala? My friends want to try something a little more moderately priced. Can you give me the postcode, address and phone?",12,3,apologetic,0,neutral,False
+MUL1124.json,"No, sorry. I'm looking for a hotel in the centre, not north.",2,3,apologetic,0,neutral,False
+MUL1189.json,"Hmm, that number doesn't seem like it would be correct. Can you double check that for me?",6,2,dissatisfied,0,neutral,False
+PMUL0160.json,Hmm. How about Indian instead?,4,1,fearful,0,neutral,False
+MUL1260.json,That's all I need thanks.,18,6,satisfied,0,neutral,False
+MUL1139.json,I will need a taxi to travel between the hotel and the college. Can you handle this also?,12,0,neutral,0,neutral,True
+MUL1725.json,I think that will be all for today. Thank you.,16,6,satisfied,0,neutral,False
+MUL2153.json,"I would like to find a lovely hotel to stay in cambridge that has free wifi, so I can watch netflix. Can you help me with that as well?",6,5,excited,0,neutral,False
+MUL0291.json,Thank you very much. Have a nice day!,10,6,satisfied,0,neutral,False
+PMUL1305.json,is it an art gallery? i also hate art. i'm a curmudgeon.,10,4,abusive,0,neutral,False
+MUL1910.json,"I will be visting in North Cambridge and would like to spend sometime at the pool, are there any in the area?",0,5,excited,0,neutral,False
+MUL2126.json,"Let's back up a bit here. I need to get to London Liverpool Street, not Leicester.",6,2,dissatisfied,0,neutral,False
+PMUL0376.json,I need the reference number please. ,4,0,neutral,0,neutral,True
+PMUL0350.json,And there are no hotels? Just guesthouses? ,6,2,dissatisfied,0,neutral,False
+PMUL0197.json,Thanks so much. Goodbye. ,12,6,satisfied,0,neutral,False
+PMUL0167.json,"I'm sorry, I've checked my budget and really need to go with the cheap hotel. Could you just give me the information on that one? No booking today.",10,3,apologetic,0,neutral,False
+MUL0552.json,I would like to know what parks are in the west part of Cambridge.,0,0,neutral,0,neutral,True
+MUL0026.json,That sounds good.  I need to check the number of people before I book.,4,6,satisfied,0,neutral,False
+MUL2610.json,"No, I think you gave me everything, thanks!",2,6,satisfied,0,neutral,False
+PMUL0057.json,"I'm sorry, I've changed my mind. Can you please make the reservation at the guesthouse for 6 people and 3 nights starting on Monday. ",8,3,apologetic,0,neutral,False
+PMUL1155.json,"I want to confirm that I will arrive by 15:15? You stated, leaving at 5:35 and arriving at 5:52?",10,2,dissatisfied,0,neutral,False
+PMUL0601.json,"No, going to cambridge and leaving london liverpool st. I am leaving saturday and want to leave sometime after 18:30",6,2,dissatisfied,0,neutral,False
+MUL2646.json,My friend told me about a place called the Carolina Bed and Breakfast. Do you know anything about it?,0,5,excited,0,neutral,False
+MUL2628.json,"Yes, please!  For 3 people for 4 nights starting Thursday.",6,5,excited,0,neutral,False
+MUL0703.json,"I apologize, it looks like I forgot to book the hotel. Alexander B&B, Saturday night thru Monday, for two adults, please.",16,3,apologetic,0,neutral,False
+PMUL0690.json,"I'm sorry, it is actually a train that I'm looking for. I need to depart from Cambridge on Saturday.",2,3,apologetic,0,neutral,False
+PMUL1275.json,What would your best recommendation be for one?,2,5,excited,0,neutral,False
+MUL1392.json,I'm sorry but I will be dining at the Eraina restaurant. Can you have the same taxi pick me up there instead? ,20,3,apologetic,0,neutral,False
+MUL0867.json,Yes!,2,6,satisfied,0,neutral,False
+MUL1038.json,"We could shorten the stay to just four nights, I guess.",12,1,fearful,0,neutral,False
+PMUL1214.json,"As long as I am there by like I said earlier, 17:15 so yes the 16:07 will work for me. I am also looking for attractions in south",8,2,dissatisfied,0,neutral,False
+MUL0323.json,Wonderful! What is their address?,8,6,satisfied,0,neutral,False
+MUL1505.json,"Great, can you find a chinese restaurant for me to eat at?",0,5,excited,0,neutral,False
+PMUL0847.json,Great!  Let's go ahead and book for three people.,12,5,excited,0,neutral,False
+PMUL0384.json,Maybe you could try again?,14,1,fearful,0,neutral,False
+MUL2432.json,Sure.  First I need to know where the taxi should pick you up.,10,0,neutral,0,neutral,True
+MUL0338.json,"How about 12:15 instead, will that work? ",4,0,neutral,0,neutral,True
+PMUL1480.json,Thank you. Sorry for the confusion. Have a great day.,22,3,apologetic,0,neutral,False
+MUL2050.json,No thanks. I forgot I should wait to book until I am sure how many people we will have. Thanks though. Good night!,22,6,satisfied,0,neutral,False
+MUL1021.json,"Actually, can you find me one that offers free wifi and parking that has a 2-star rating? I prefer the north area still. ",6,3,apologetic,0,neutral,False
+PMUL0326.json,Please reread the rest of the conversation! It's not hard to keep up! The hotel is the Ashley hotel. You didnt give me the name of the restaurant,16,4,abusive,0,neutral,False
+MUL2236.json,"Actually, I apologize no need to book, I was just gathering information.  But I do need information on a train from leicester to cambridge.",12,3,apologetic,0,neutral,False
+MUL0285.json,Hmm.. how about 12:15?,4,1,fearful,0,neutral,False
+MUL0327.json,I need on that arrives by 19:15 please ,10,0,neutral,0,neutral,True
+MUL1114.json,Oh dear.  What if we only stay there on Wednesday?,12,1,fearful,0,neutral,False

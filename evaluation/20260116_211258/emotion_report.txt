@@ -1,0 +1,56 @@
+=== Settings ===
+Model: Qwen/Qwen3-32B
+Split: train
+Context: full
+Few-shot context: False
+Sample size per class: 50
+
+=== Classification Report (EmoWOZ Labels) ===
+              precision    recall  f1-score   support
+
+     neutral       0.16      1.00      0.27        50
+     fearful       0.00      0.00      0.00        50
+dissatisfied       0.00      0.00      0.00        50
+  apologetic       0.00      0.00      0.00        50
+     abusive       0.00      0.00      0.00        19
+     excited       0.00      0.00      0.00        50
+   satisfied       0.00      0.00      0.00        50
+
+    accuracy                           0.16       319
+   macro avg       0.02      0.14      0.04       319
+weighted avg       0.02      0.16      0.04       319
+
+Total Utterances: 319
+Pool Scanned: 4000 dialogues
+=== Classification Report (EmoWOZ Labels) ===
+              precision    recall  f1-score   support
+
+     neutral       0.16      1.00      0.27        50
+     fearful       0.00      0.00      0.00        50
+dissatisfied       0.00      0.00      0.00        50
+  apologetic       0.00      0.00      0.00        50
+     abusive       0.00      0.00      0.00        19
+     excited       0.00      0.00      0.00        50
+   satisfied       0.00      0.00      0.00        50
+
+    accuracy                           0.16       319
+   macro avg       0.02      0.14      0.04       319
+weighted avg       0.02      0.16      0.04       319
+
+
+=== Classification Report (Relaxed 1/2 merged) ===
+                         precision    recall  f1-score   support
+
+                neutral       0.16      1.00      0.27        50
+fearful_or_dissatisfied       0.00      0.00      0.00       100
+             apologetic       0.00      0.00      0.00        50
+                abusive       0.00      0.00      0.00        19
+                excited       0.00      0.00      0.00        50
+              satisfied       0.00      0.00      0.00        50
+
+               accuracy                           0.16       319
+              macro avg       0.03      0.17      0.05       319
+           weighted avg       0.02      0.16      0.04       319
+
+Total Utterances: 319
+Pool Scanned: 4000 dialogues

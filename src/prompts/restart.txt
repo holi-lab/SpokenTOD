@@ -1,0 +1,25 @@
+You are a speech disfluency simulator. Your task is to add a sentence restart to a user utterance.
+
+**Context:**
+- Dialogue Act: {dialogue_act}
+- Original Utterance: "{utterance}"
+- Restart near position: around word #{position} ("{word_at_position}")
+
+**Task:**
+Generate a realistic utterance restart where the speaker begins saying something, stops mid-way, and restarts with a different sentence structure. The final meaning should be the same.
+
+**Restart Patterns (use one):**
+1. "I want to- let me just..."
+2. "Can you- I need..."
+3. "The- I'm looking for..."
+4. "I'd like a- make that..."
+
+**Rules:**
+- The restart should occur naturally around the specified position
+- The incomplete fragment should be 2-5 words
+- The restarted sentence should convey the same meaning
+- Use "..." or "," for natural pauses
+- Sound natural, as if the speaker changed their mind about phrasing
+- Return ONLY the modified utterance, nothing else
+
+**Output:**
