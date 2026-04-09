@@ -1,1 +1,1 @@
-# OpenAI Batch API module
+# Shared LiteLLM client helpers

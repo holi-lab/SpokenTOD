@@ -1,223 +1,322 @@
-"""OpenAI Batch API client"""
+"""LiteLLM client helpers for augmentation tasks."""
 
-import json
-import time
-from pathlib import Path
-from typing import Any
+import asyncio
+import os
+import re
+import threading
+from dataclasses import dataclass
+from typing import Any, TypeVar
 
-try:
-    from openai import OpenAI
-except ImportError:
-    OpenAI = None
+from litellm import completion, completion_cost
+from litellm.exceptions import APIConnectionError
+from loguru import logger
+from pydantic import BaseModel
+
+T = TypeVar("T", bound=BaseModel)
+
+_JSON_FENCE_RE = re.compile(r"^```(?:json)?\s*(.*?)\s*```$", re.DOTALL)
+
+
+@dataclass
+class LLMUsageStats:
+    requests: int = 0
+    prompt_tokens: int = 0
+    completion_tokens: int = 0
+    total_tokens: int = 0
+    estimated_cost_usd: float = 0.0
+
+
+@dataclass
+class LLMUsageSnapshot:
+    total: LLMUsageStats
+    by_stage: dict[str, LLMUsageStats]
+
+
+def _usage_field(usage: Any, field_name: str) -> int:
+    if usage is None:
+        return 0
+    if isinstance(usage, dict):
+        value = usage.get(field_name, 0)
+    else:
+        value = getattr(usage, field_name, 0)
+    return int(value or 0)
+
+
+class LLMUsageTracker:
+    """Thread-safe usage and cost tracker for LiteLLM responses."""
+
+    def __init__(self):
+        self._total = LLMUsageStats()
+        self._by_stage: dict[str, LLMUsageStats] = {}
+        self._lock = threading.Lock()
+
+    def record_response(self, response: Any, model: str, stage: str) -> None:
+        usage = getattr(response, "usage", None)
+        prompt_tokens = _usage_field(usage, "prompt_tokens")
+        completion_tokens = _usage_field(usage, "completion_tokens")
+        total_tokens = _usage_field(usage, "total_tokens")
+
+        try:
+            estimated_cost = float(
+                completion_cost(
+                    completion_response=response,
+                    model=model,
+                )
+            )
+        except Exception:
+            estimated_cost = 0.0
+
+        with self._lock:
+            stage_stats = self._by_stage.setdefault(stage, LLMUsageStats())
+            self._accumulate(
+                self._total,
+                prompt_tokens=prompt_tokens,
+                completion_tokens=completion_tokens,
+                total_tokens=total_tokens,
+                estimated_cost=estimated_cost,
+            )
+            self._accumulate(
+                stage_stats,
+                prompt_tokens=prompt_tokens,
+                completion_tokens=completion_tokens,
+                total_tokens=total_tokens,
+                estimated_cost=estimated_cost,
+            )
+
+    def snapshot(self) -> LLMUsageSnapshot:
+        with self._lock:
+            total = LLMUsageStats(**vars(self._total))
+            by_stage = {
+                stage: LLMUsageStats(**vars(stats))
+                for stage, stats in self._by_stage.items()
+            }
+        return LLMUsageSnapshot(total=total, by_stage=by_stage)
+
+    @staticmethod
+    def _accumulate(
+        stats: LLMUsageStats,
+        prompt_tokens: int,
+        completion_tokens: int,
+        total_tokens: int,
+        estimated_cost: float,
+    ) -> None:
+        stats.requests += 1
+        stats.prompt_tokens += prompt_tokens
+        stats.completion_tokens += completion_tokens
+        stats.total_tokens += total_tokens
+        stats.estimated_cost_usd += estimated_cost
 
 
 class BatchClient:
-    """Client for OpenAI Batch API."""
+    """Thin LiteLLM wrapper used across augmentation flows."""
 
     def __init__(
         self,
         api_key: str | None = None,
         model: str = "gpt-4.1-mini",
         max_retries: int = 3,
+        api_base: str | None = None,
+        usage_tracker: LLMUsageTracker | None = None,
+        request_tag: str = "default",
     ):
-        if OpenAI is None:
-            raise ImportError("openai package not installed. Run: pip install openai")
-        
-        openrouter_api_key = "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"
-        base_url = "http://pokpo.snu.ac.kr:8000/v1"
-        self.client = OpenAI(api_key=api_key, base_url=base_url)
+        self._api_key = api_key
+        self.api_base = api_base or os.getenv("LITELLM_API_BASE")
         self.model = model
         self.max_retries = max_retries
+        self.usage_tracker = usage_tracker
+        self.request_tag = request_tag
+
+    def _build_request_kwargs(
+        self,
+        messages: list[dict[str, Any]],
+        max_tokens: int,
+        temperature: float,
+        response_format: type[T] | None = None,
+    ) -> dict[str, Any]:
+        kwargs: dict[str, Any] = {
+            "model": self.model,
+            "messages": messages,
+            "max_tokens": max_tokens,
+            "temperature": temperature,
+        }
+        if response_format is not None:
+            kwargs["response_format"] = response_format
+        if self._api_key:
+            kwargs["api_key"] = self._api_key
+        if self.api_base:
+            kwargs["base_url"] = self.api_base
+        return kwargs
+
+    def _extract_content(self, response: Any) -> str:
+        message = response.choices[0].message
+        content = getattr(message, "content", "")
+
+        if isinstance(content, str):
+            return content
+        if isinstance(content, list):
+            parts: list[str] = []
+            for item in content:
+                if isinstance(item, str):
+                    parts.append(item)
+                    continue
+                if isinstance(item, dict):
+                    text = item.get("text")
+                    if isinstance(text, str):
+                        parts.append(text)
+                    continue
+                text = getattr(item, "text", None)
+                if isinstance(text, str):
+                    parts.append(text)
+            return "".join(parts)
+        return str(content or "")
+
+    def _parse_structured_content(
+        self,
+        content: str,
+        response_format: type[T],
+    ) -> T:
+        raw_content = content.strip()
+        fenced = _JSON_FENCE_RE.match(raw_content)
+        if fenced:
+            raw_content = fenced.group(1).strip()
+        return response_format.model_validate_json(raw_content)
+
+    def _coerce_response(
+        self,
+        response: Any,
+        response_format: type[T] | None,
+    ) -> str | T:
+        if response_format is None:
+            return self._extract_content(response)
+        parsed = getattr(response.choices[0].message, "parsed", None)
+        if parsed is not None:
+            return parsed
+        content = self._extract_content(response)
+        return self._parse_structured_content(content, response_format)
+
+    def _build_error_response(
+        self,
+        response_format: type[T],
+        error: Exception,
+    ) -> T:
+        payload: dict[str, Any] = {}
+        if "applicable" in response_format.model_fields:
+            payload["applicable"] = False
+        if "reason" in response_format.model_fields:
+            payload["reason"] = f"API Error: {self._format_request_error(error)}"
+        return response_format.model_validate(payload)
+
+    def _format_request_error(self, error: Exception) -> str:
+        if isinstance(error, APIConnectionError):
+            request_url = getattr(getattr(error, "request", None), "url", None)
+            model_name = getattr(error, "model", self.model)
+            endpoint = self.api_base or request_url or "configured provider endpoint"
+            return (
+                f"Failed to connect to API for model '{model_name}' at {endpoint}. "
+                "Check network connectivity and endpoint configuration."
+            )
+        return str(error)
 
     def chat_completion(
         self,
         messages: list[dict],
         max_tokens: int = 5,
         temperature: float = 0.0,
-    ) -> str:
-        """Get a real-time chat completion.
-        
-        Args:
-            messages: List of message dicts
-            max_tokens: Max tokens to generate
-            temperature: Sampling temperature
-            
-        Returns:
-            Response content string
-        """
-        response = self.client.chat.completions.create(
+        response_format: type[T] | None = None,
+    ) -> str | T:
+        response = completion(
+            **self._build_request_kwargs(
+                messages=messages,
+                max_tokens=max_tokens,
+                temperature=temperature,
+                response_format=response_format,
+            )
+        )
+        self._record_response_usage(response)
+        return self._coerce_response(response, response_format)
+
+    async def chat_completion_async(
+        self,
+        messages: list[dict],
+        max_tokens: int = 5,
+        temperature: float = 0.0,
+        response_format: type[T] | None = None,
+    ) -> str | T:
+        response = await asyncio.to_thread(
+            completion,
+            **self._build_request_kwargs(
+                messages=messages,
+                max_tokens=max_tokens,
+                temperature=temperature,
+                response_format=response_format,
+            )
+        )
+        self._record_response_usage(response)
+        return self._coerce_response(response, response_format)
+
+    def _record_response_usage(self, response: Any) -> None:
+        if self.usage_tracker is None:
+            return
+        self.usage_tracker.record_response(
+            response=response,
             model=self.model,
-            messages=messages,
-            max_tokens=max_tokens,
-            temperature=temperature,
-            extra_body={
-                "chat_template_kwargs": {"enable_thinking": False}
-            }
+            stage=self.request_tag,
         )
-        return response.choices[0].message.content or ""
 
-    def create_batch(
+    async def batch_completion_async(
         self,
-        requests: list[dict],
-        description: str = "Voice augmentation batch",
-    ) -> str:
-        """Create a batch job from requests.
-        
-        Args:
-            requests: List of request dicts with custom_id, method, url, body
-            description: Description for the batch
-        
-        Returns:
-            Batch ID
-        """
-        # Write requests to JSONL file
-        jsonl_path = Path(f"/tmp/batch_{int(time.time())}.jsonl")
-        with open(jsonl_path, "w") as f:
-            for req in requests:
-                f.write(json.dumps(req) + "\n")
-        
-        # Upload file
-        with open(jsonl_path, "rb") as f:
-            file = self.client.files.create(file=f, purpose="batch")
-        
-        # Create batch
-        batch = self.client.batches.create(
-            input_file_id=file.id,
-            endpoint="/v1/chat/completions",
-            completion_window="24h",
-            metadata={"description": description},
-        )
-        
-        return batch.id
+        request_list: list[dict],
+        max_concurrency: int = 50,
+        response_format: type[T] | None = None,
+    ) -> list[str | T]:
+        sem = asyncio.Semaphore(max_concurrency)
+        errors: list[Exception] = []
 
-    def get_status(self, batch_id: str) -> dict:
-        """Get status of a batch job.
-        
-        Returns:
-            Status dict with keys: status, request_counts, etc.
-        """
-        batch = self.client.batches.retrieve(batch_id)
-        return {
-            "status": batch.status,
-            "request_counts": batch.request_counts,
-            "output_file_id": batch.output_file_id,
-            "error_file_id": batch.error_file_id,
-        }
+        async def _process_single(req: dict) -> str | T:
+            async with sem:
+                try:
+                    return await self.chat_completion_async(
+                        messages=req["messages"],
+                        max_tokens=req.get("max_tokens", 5),
+                        temperature=req.get("temperature", 0.0),
+                        response_format=response_format,
+                    )
+                except Exception as error:
+                    errors.append(error)
+                    if response_format is not None:
+                        return self._build_error_response(response_format, error)
+                    return ""
 
-    def wait_for_completion(
-        self,
-        batch_id: str,
-        poll_interval: int = 30,
-        timeout: int = 3600,
-    ) -> dict:
-        """Wait for batch to complete.
-        
-        Args:
-            batch_id: Batch ID to wait for
-            poll_interval: Seconds between status checks
-            timeout: Maximum seconds to wait
-        
-        Returns:
-            Final status dict
-        """
-        start = time.time()
-        while time.time() - start < timeout:
-            status = self.get_status(batch_id)
-            if status["status"] in ("completed", "failed", "cancelled", "expired"):
-                return status
-            time.sleep(poll_interval)
-        
-        raise TimeoutError(f"Batch {batch_id} did not complete within {timeout}s")
+        tasks = [_process_single(req) for req in request_list]
+        results = await asyncio.gather(*tasks)
 
-    def get_results(self, batch_id: str) -> list[dict]:
-        """Get results from completed batch.
-        
-        Args:
-            batch_id: Batch ID
-        
-        Returns:
-            List of result dicts with custom_id and response
-        """
-        status = self.get_status(batch_id)
-        if not status["output_file_id"]:
-            raise ValueError(f"Batch {batch_id} has no output file")
-        
-        # Download output file
-        content = self.client.files.content(status["output_file_id"])
-        
-        results = []
-        for line in content.text.split("\n"):
-            if line.strip():
-                results.append(json.loads(line))
-        
+        if errors:
+            if len(errors) == len(request_list):
+                raise errors[0]
+            logger.error(
+                f"{len(errors)}/{len(request_list)} async requests failed for model "
+                f"{self.model}. First error: {self._format_request_error(errors[0])}"
+            )
+
         return results
-
-    def parse_results(self, results: list[dict]) -> dict[str, str]:
-        """Parse batch results into custom_id -> response mapping.
-        
-        Args:
-            results: Raw results from get_results
-        
-        Returns:
-            Dict mapping custom_id to response content
-        """
-        parsed = {}
-        for result in results:
-            custom_id = result.get("custom_id", "")
-            response = result.get("response", {})
-            body = response.get("body", {})
-            choices = body.get("choices", [])
-            
-            if choices:
-                content = choices[0].get("message", {}).get("content", "")
-                parsed[custom_id] = content
-        
-        return parsed
 
 
 class MockBatchClient:
-    """Mock batch client for testing without API calls."""
+    """Mock client for testing without external API calls."""
 
     def __init__(self, default_emotion: int = 0):
         self.default_emotion = default_emotion
-        self._batches = {}
 
-    def chat_completion(self, messages: list[dict], **kwargs) -> str:
-        """Mock chat completion."""
+    def chat_completion(
+        self,
+        messages: list[dict],
+        **kwargs,
+    ) -> str:
         return str(self.default_emotion)
 
-    def create_batch(self, requests: list[dict], description: str = "") -> str:
-        batch_id = f"mock_batch_{len(self._batches)}"
-        self._batches[batch_id] = {
-            "requests": requests,
-            "status": "completed",
-        }
-        return batch_id
-
-    def get_status(self, batch_id: str) -> dict:
-        return {"status": "completed", "output_file_id": "mock_file"}
-
-    def wait_for_completion(self, batch_id: str, **kwargs) -> dict:
-        return self.get_status(batch_id)
-
-    def get_results(self, batch_id: str) -> list[dict]:
-        batch = self._batches.get(batch_id, {})
-        results = []
-        for req in batch.get("requests", []):
-            results.append({
-                "custom_id": req["custom_id"],
-                "response": {
-                    "body": {
-                        "choices": [{"message": {"content": str(self.default_emotion)}}]
-                    }
-                }
-            })
-        return results
-
-    def parse_results(self, results: list[dict]) -> dict[str, str]:
-        parsed = {}
-        for result in results:
-            custom_id = result.get("custom_id", "")
-            content = result["response"]["body"]["choices"][0]["message"]["content"]
-            parsed[custom_id] = content
-        return parsed
+    async def batch_completion_async(
+        self,
+        request_list: list[dict],
+        **kwargs,
+    ) -> list[str]:
+        return [str(self.default_emotion) for _ in request_list]

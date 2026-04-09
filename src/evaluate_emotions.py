@@ -129,7 +129,6 @@ def evaluate_emotions(
                 context=item["context"],
             )
             prompts.append(prompt)
-        print(prompts[0])
         # Tag with context using parallel workers
         import concurrent.futures
 
@@ -143,7 +142,6 @@ def evaluate_emotions(
         with concurrent.futures.ThreadPoolExecutor(max_workers=workers) as executor:
             predictions = list(executor.map(tag_single, prompts))
             
-        print(f"Predictions: {predictions}")
         for item, pred_label in zip(sampled_utterances, predictions):
             gt = item["label"]
             y_true.append(gt)

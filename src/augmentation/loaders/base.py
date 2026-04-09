@@ -24,6 +24,11 @@ class BaseLoader(ABC):
     def load(self) -> Iterator[Dialogue]:
         """Yield dialogues from the dataset."""
         pass
+    
+    @abstractmethod
+    def __len__(self) -> int:
+        """Return number of dialogues in the split."""
+        pass
 
     @abstractmethod
     def _extract_goal(self, raw: dict) -> dict:

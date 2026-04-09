@@ -20,6 +20,7 @@ build/
 *.swo
 *.~ 
 *.tmp
+*.out
 .mypy_cache/
 .pytest_cache/
 .coverage
@@ -28,3 +29,5 @@ htmlcov/
 .tox/
 .idea/
 .vscode/
+data/
+CosyVoice/

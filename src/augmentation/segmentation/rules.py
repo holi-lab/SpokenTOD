@@ -2,6 +2,7 @@
 
 import random
 import re
+import string
 from dataclasses import dataclass
 
 
@@ -35,7 +36,7 @@ def segment_phone(value: str, chunk_size: int = 4) -> list[str]:
 def segment_email(value: str) -> list[str]:
     """Segment email into parts.
     
-    Example: "john.smith@gmail.com" -> ["john dot smith", "at gmail dot com"]
+    Example: ₩
     """
     if "@" not in value:
         return [value]
@@ -161,6 +162,39 @@ def _generate_wrong_value(segment: str) -> str:
     parts = segment.split()
     if len(parts) >= 2:
         # Swap last two parts
-        parts[-2], parts[-1] = parts[-1], parts[-2]
-        return " ".join(parts)
-    return segment + " wrong"
+        swapped = parts[:]
+        swapped[-2], swapped[-1] = swapped[-1], swapped[-2]
+        wrong = " ".join(swapped)
+        if wrong != segment:
+            return wrong
+    if not parts:
+        return segment + " wrong"
+    # Fallback: mutate one part to ensure the wrong value differs
+    idx = random.randrange(len(parts))
+    parts[idx] = _mutate_token(parts[idx])
+    mutated = " ".join(parts)
+    if mutated == segment:
+        # Last-resort tweak if mutation was ineffective
+        parts[idx] = parts[idx] + "x"
+        mutated = " ".join(parts)
+    return mutated
+
+
+def _mutate_token(token: str) -> str:
+    """Return a slightly altered token to simulate an error."""
+    if token.isdigit():
+        if len(token) == 1:
+            options = [d for d in string.digits if d != token]
+            return random.choice(options)
+        last = token[-1]
+        options = [d for d in string.digits if d != last]
+        return token[:-1] + random.choice(options)
+    if token.isalpha():
+        letters = string.ascii_uppercase if token.isupper() else string.ascii_lowercase
+        if len(token) == 1:
+            options = [c for c in letters if c != token]
+            return random.choice(options)
+        last = token[-1]
+        options = [c for c in letters if c != last]
+        return token[:-1] + random.choice(options)
+    return token + "x"

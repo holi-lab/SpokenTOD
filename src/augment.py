@@ -1,114 +1,241 @@
-#!/usr/bin/env python
-"""CLI entry point for voice dataset augmentation."""
-
-import argparse
-import sys
 from pathlib import Path
 
-# Add src to path
-sys.path.insert(0, str(Path(__file__).parent))
+import click
+from litellm.exceptions import (
+    APIConnectionError,
+    APIError,
+    AuthenticationError,
+    BadRequestError,
+)
+from rich import box
+from rich.console import Console
+from rich.panel import Panel
+from rich.table import Table
 
-from augmentation.pipeline import AugmentationPipeline, PipelineConfig
-from augmentation.disfluency import DisfluencyConfig
+from augmentation.batch.client import BatchClient
 from augmentation.constants import DATASETS
+from augmentation.disfluency import DisfluencyConfig
+from augmentation.loaders import is_dataset_available
+from augmentation.pipeline import AugmentationPipeline, PipelineConfig
 
 
-def parse_args():
-    parser = argparse.ArgumentParser(
-        description="Voice dataset augmentation pipeline"
-    )
-    parser.add_argument(
-        "--datasets",
-        type=str,
-        default=",".join(DATASETS),
-        help="Comma-separated list of datasets to process",
-    )
-    parser.add_argument(
-        "--data-dir",
-        type=Path,
-        default=Path("datasets"),
-        help="Base directory containing datasets",
-    )
-    parser.add_argument(
-        "--output-dir",
-        type=Path,
-        default=Path("augmented_data"),
-        help="Output directory for augmented data",
-    )
-    parser.add_argument(
-        "--batch-size",
-        type=int,
-        default=100,
-        help="Batch size for LLM calls",
-    )
-    parser.add_argument(
-        "--sample-size",
-        type=int,
-        default=None,
-        help="Limit samples per dataset (for testing)",
-    )
-    parser.add_argument(
-        "--splits",
-        type=str,
-        default="train,valid,test",
-        help="Comma-separated list of splits to process",
-    )
-    parser.add_argument(
-        "--model",
-        type=str,
-        default="gpt-4.1-mini",
-        help="Model name to use for emotion tagging and other LLM tasks",
-    )
-    parser.add_argument(
-        "--dry-run",
-        action="store_true",
-        help="Only print what would be done",
-    )
-    
-    return parser.parse_args()
-
-
-def main():
-    args = parse_args()
-    
-    datasets = [d.strip() for d in args.datasets.split(",")]
-    splits = [s.strip() for s in args.splits.split(",")]
-    
-    print(f"Voice Dataset Augmentation Pipeline")
-    print(f"=" * 40)
-    print(f"Datasets: {datasets}")
-    print(f"Splits: {splits}")
-    print(f"Output: {args.output_dir}")
-    
-    if args.dry_run:
-        print(f"\n[DRY RUN] Would process {len(datasets)} datasets")
+def _append_usage_summary_rows(table: Table, pipeline) -> None:
+    tracker = getattr(pipeline, "llm_usage_tracker", None)
+    if tracker is None or not hasattr(tracker, "snapshot"):
         return
-    
+
+    snapshot = tracker.snapshot()
+    if snapshot.total.requests == 0:
+        return
+
+    barge_in = snapshot.by_stage.get("barge-in")
+    disfluency = snapshot.by_stage.get("disfluency")
+    emotion = snapshot.by_stage.get("emotion")
+
+    def _stage_value(stats, attr: str) -> str:
+        if stats is None:
+            return ""
+        value = getattr(stats, attr)
+        if attr == "estimated_cost_usd":
+            return f"${value:.6f}"
+        return str(value)
+
+    def _format_breakdown(attr: str, default: str) -> str:
+        return ", ".join(
+            [
+                f"barge-in: {_stage_value(barge_in, attr) or default}",
+                f"disfluency: {_stage_value(disfluency, attr) or default}",
+                f"emotion: {_stage_value(emotion, attr) or default}",
+            ]
+        )
+
+    def _format_metric(total: str, attr: str, default: str) -> str:
+        return f"{total} ({_format_breakdown(attr, default)})"
+
+    table.add_row(
+        "LLM Requests",
+        _format_metric(str(snapshot.total.requests), "requests", "0"),
+    )
+    table.add_row(
+        "Prompt Tokens",
+        _format_metric(str(snapshot.total.prompt_tokens), "prompt_tokens", "0"),
+    )
+    table.add_row(
+        "Completion Tokens",
+        _format_metric(str(snapshot.total.completion_tokens), "completion_tokens", "0"),
+    )
+    table.add_row(
+        "Total Tokens",
+        _format_metric(str(snapshot.total.total_tokens), "total_tokens", "0"),
+    )
+    table.add_row(
+        "Estimated Cost",
+        _format_metric(
+            f"${snapshot.total.estimated_cost_usd:.6f}",
+            "estimated_cost_usd",
+            "$0.000000",
+        ),
+        style="bold",
+    )
+
+
+@click.command(context_settings={"show_default": True})
+@click.option(
+    "--datasets",
+    default=",".join(DATASETS),
+    help="Comma-separated list of datasets to process",
+)
+@click.option(
+    "--data-dir",
+    type=click.Path(path_type=Path),
+    default=Path("datasets"),
+    help="Base directory containing datasets",
+)
+@click.option(
+    "--output-dir",
+    type=click.Path(path_type=Path),
+    default=Path("datasets/SpokenTOD"),
+    help="Output directory for augmented data",
+)
+@click.option(
+    "--chunk-size",
+    type=int,
+    default=100,
+    help="Number of dialogues to process per chunk",
+)
+@click.option(
+    "--workers",
+    type=int,
+    default=1,
+    help="Number of datasets to process in parallel",
+)
+@click.option(
+    "--sample-size",
+    type=int,
+    default=None,
+    help="Limit samples per dataset (for testing)",
+)
+@click.option(
+    "--splits",
+    default="train,valid,test",
+    help="Comma-separated list of splits to process",
+)
+@click.option(
+    "--model",
+    default="Qwen/Qwen3-32B",
+    help="Model name to use for emotion tagging and other LLM tasks",
+)
+@click.option(
+    "--dry-run",
+    is_flag=True,
+    help="Only print what would be done",
+)
+def main(
+    datasets: str,
+    data_dir: Path,
+    output_dir: Path,
+    chunk_size: int,
+    workers: int,
+    sample_size: int | None,
+    splits: str,
+    model: str,
+    dry_run: bool,
+):
+    console = Console()
+    console.clear()
+    if not is_dataset_available("saa", data_dir):
+        raise ValueError(
+            f"SAA dataset not found in {data_dir}. Please run the download script to obtain it. make download DATASETS=saa"
+        )
+
+    datasets = [d.strip() for d in datasets.split(",")]
+    splits = [s.strip() for s in splits.split(",")]
+
+    for dataset in datasets:
+        if not is_dataset_available(dataset, data_dir):
+            console.print(f"[red]Error:[/red] Dataset not found for: {dataset} in {data_dir}")
+            raise ValueError(f"Dataset not found for: {dataset} in {data_dir}")
+
+    output_files = ", ".join(
+        str(output_dir / f"{split}_text.jsonl") for split in splits
+    )
+
+    header = Table.grid(padding=(0, 1))
+    header.add_column(justify="right", style="bold cyan", no_wrap=True)
+    header.add_column(style="white")
+    header.add_row("Datasets", ", ".join(datasets))
+    header.add_row("Splits", ", ".join(splits))
+    header.add_row("Output", output_files)
+    header.add_row("Model", str(model))
+    header.add_row("Chunk size", str(chunk_size))
+    header.add_row("Workers", str(workers))
+    header.add_row("Sample size", str(sample_size) if sample_size else "All")
+    header.add_row(
+        "Total Size",
+        f"{sample_size * len(datasets) * len(splits)}" if sample_size else "All",
+    )
+    console.print()
+    console.print(
+        Panel(
+            header,
+            title="SpokenTOD - Text Augmentation Pipeline",
+            box=box.ASCII,
+            border_style="cyan",
+        )
+    )
+    console.print(
+        "[yellow]Note:[/yellow] This pipeline can take a long time. "
+        "We recommend running it in a background session (tmux, nohup, screen) "
+        "to avoid interruption."
+    )
+    console.print()
+
+    if dry_run:
+        console.print(
+            f"[yellow][DRY RUN][/yellow] Would process {len(datasets)} datasets with {len(splits)} splits and save to {output_dir}",
+            style="yellow",
+        )
+        return
+
     config = PipelineConfig(
-        model=args.model,
+        model=model,
         datasets=datasets,
-        data_dir=args.data_dir,
-        output_dir=args.output_dir,
-        batch_size=args.batch_size,
-        sample_size=args.sample_size,
+        data_dir=data_dir,
+        output_dir=output_dir,
+        chunk_size=chunk_size,
+        workers=workers,
+        sample_size=sample_size,
         disfluency_config=DisfluencyConfig(),
     )
-    
+
     pipeline = AugmentationPipeline(config)
-    
-    print(f"\nProcessing...")
-    stats = pipeline.run(splits=splits)
-    
-    print(f"\n{'Dataset':<15} {'Count':>10}")
-    print("-" * 25)
+
+    try:
+        stats = pipeline.run(splits=splits)
+    except (APIConnectionError, AuthenticationError, BadRequestError, APIError) as exc:
+        message = BatchClient(model=model)._format_request_error(exc)
+        console.print(f"[red]Error:[/red] {message}")
+        raise click.ClickException(message) from exc
+
+    print()
+
+    table = Table(
+        title="Augmentation Results",
+        box=box.ASCII,
+        border_style="cyan",
+        title_style="bold cyan",
+        header_style="bold cyan",
+    )
+    table.add_column("Item", style="bold cyan")
+    table.add_column("Value", style="white")
     for dataset, count in stats.items():
-        print(f"{dataset:<15} {count:>10}")
-    
+        table.add_row(dataset, str(count))
+
     total = sum(stats.values())
-    print("-" * 25)
-    print(f"{'Total':<15} {total:>10}")
-    
-    print(f"\nDone! Output saved to: {args.output_dir}")
+    table.add_row("Dataset Counts", str(total), style="bold", end_section=True)
+    _append_usage_summary_rows(table, pipeline)
+    console.print(table)
+    console.print(f"Done! Output saved to: {output_dir}", style="green")
 
 
 if __name__ == "__main__":

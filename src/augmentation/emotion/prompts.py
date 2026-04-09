@@ -1,6 +1,7 @@
 """Emotion tagging prompts with EmoWOZ few-shot examples."""
 
 import re
+
 from augmentation.constants import EMOTION_LABELS
 
 # Few-shot examples without context: (utterance, label)
@@ -239,41 +240,12 @@ Predict the emotion label (0-6) for this utterance.
 Respond with only the number (0-6)."""
 
     return prompt
-
-
-def build_batch_prompts(utterances: list[str]) -> list[dict]:
-    """Build batch of prompts for OpenAI batch API.
-    
-    Args:
-        utterances: List of user utterances to classify
-    
-    Returns:
-        List of prompt dicts for batch API
-    """
-    prompts = []
-    for i, utt in enumerate(utterances):
-        prompts.append({
-            "custom_id": f"emotion-{i}",
-            "method": "POST",
-            "url": "/v1/chat/completions",
-            "body": {
-                "model": "gpt-4.1-mini",
-                "messages": [
-                    {"role": "user", "content": build_emotion_prompt(utt)}
-                ],
-                "max_tokens": 5,
-                "temperature": 0,
-            }
-        })
-    return prompts
-
-
 def parse_emotion_response(response: str) -> int:
     """Parse emotion label from LLM response.
-    
+
     Args:
         response: LLM response text
-    
+
     Returns:
         Emotion label (0-6), defaults to 0 (neutral) on error
     """
@@ -294,14 +266,14 @@ def parse_emotion_think_response(response: str) -> int:
                 <think> 태그가 있다면 태그 이후의 내용에서 찾습니다.
                 """
                 clean_response = re.sub(r'<think>.*?</think>', '', response, flags=re.DOTALL).strip()
-                
+
                 if not clean_response: # 만약 think 태그 밖에 내용이 없다면 전체에서 찾음
                     clean_response = response
 
                 numbers = re.findall(r'[0-6]', clean_response)
-                
+
                 if numbers:
                     return int(numbers[-1])
-                
+
                 # 찾지 못했을 경우 기본값 0 (또는 에러 상황을 알리기 위해 -1 반환 후 처리)
                 return -1

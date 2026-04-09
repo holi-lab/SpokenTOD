@@ -1,89 +1,83 @@
-# Voice Dataset Augmentation Pipeline
-# Conda Environment: disfluenTOD
+AUGMENT_MODEL ?= Qwen/Qwen3-32B # We use LiteLLM as provider. check model name here: https://models.litellm.ai/
+SAMPLE_SIZE ?= 3
+SPLITS ?= train,valid,test
+CHUNK_SIZE ?= 10
+WORKERS ?= 3
+DATASETS ?= emowoz,sgd,abcd,tm2,spokenwoz
+OUT_DIR ?= datasets/SpokenTOD
+DATA_DIR ?= datasets
 
-CONDA_ENV = disfluenTOD
-CONDA_RUN = conda run -n $(CONDA_ENV) --no-capture-output
-PYTHON = $(CONDA_RUN) python
-MODEL = gpt-4.1-mini
+DOWNLOAD_DATASETS ?= emowoz,sgd,abcd,tm2,spokenwoz,saa
 
-# Directories
-SRC_DIR = src
-OUT_DIR = data
-DATA_DIR = datasets
-
-# Datasets
-DATASETS = emowoz,sgd,abcd,spokenwoz,tm2
-
-# Evaluation
-SAMPLE_SIZE = 5
-WORKERS = 10
-EMOTION_SPLIT = train
-
-.PHONY: help augment augment-sample test lint clean
+.PHONY: help sync lock augment augment-full augment-sample synthesize test lint clean download download-help
 
 help:
-	@echo "Voice Dataset Augmentation Pipeline"
+	@echo "SpokenTOD Augmentation Pipeline"
 	@echo ""
 	@echo "Usage:"
 	@echo "  make augment          - Run full augmentation pipeline"
-	@echo "  make augment-sample   - Run on small sample (10 per dataset)"
-	@echo "  make augment-emowoz   - Augment EmoWOZ only"
-	@echo "  make augment-sgd      - Augment SGD only"
-	@echo "  make augment-abcd     - Augment ABCD only"
-	@echo "  make augment-spokenwoz- Augment SpokenWOZ only"
-	@echo "  make augment-tm2      - Augment TM-2 only"
+	@echo "  make augment-sample   - Run on small sample (3 per dataset)"
 	@echo "  make test             - Run unit tests"
 	@echo "  make lint             - Run linter"
 	@echo "  make clean            - Remove generated files"
-	@echo "  make eval-emotion     - Evaluate emotion classification on EmoWOZ (set EMOTION_SPLIT=train|valid|test)"
+	@echo "  make synthesize       - Synthesize audio from augmented data"
+	@echo "  make download DATASETS=<name> - Download dataset archive (comma-separated list of dataset names, e.g. emowoz,sgd, errors if exists unless FORCE=1)"
+	@echo "  make download-help    - Show detailed download script usage and env vars"
 
-# Full pipeline
+# base augmentation
 augment:
-	$(PYTHON) $(SRC_DIR)/augment.py \
+	@clear
+	@uv run python src/augment.py \
 		--datasets $(DATASETS) \
+		--splits $(SPLITS) \
+		--data-dir $(DATA_DIR) \
 		--output-dir $(OUT_DIR) \
-		--batch-size 100
+		--chunk-size $(CHUNK_SIZE) \
+		--workers $(WORKERS) \
+		--model $(AUGMENT_MODEL)
 
-# Sample run for testing
-augment-sample:
-	$(PYTHON) $(SRC_DIR)/augment.py \
+augment-full:
+	@echo "Starting full augmentation in background..."
+	@echo "Output will be logged to nohup.out"
+	nohup uv run python src/augment.py \
 		--datasets $(DATASETS) \
+		--splits $(SPLITS) \
+		--data-dir $(DATA_DIR) \
+		--output-dir $(OUT_DIR) \
+		--chunk-size $(CHUNK_SIZE) \
+		--workers $(WORKERS) \
+		--model $(AUGMENT_MODEL) \
+		> nohup.out 2>&1 &
+	@echo "Process started. Monitor with: tail -f nohup.out"
+
+augment-sample:
+	@clear
+	@uv run python src/augment.py \
+		--datasets $(DATASETS) \
+		--splits $(SPLITS) \
+		--data-dir $(DATA_DIR) \
 		--output-dir $(OUT_DIR)/sample \
-		--sample-size 10
+		--sample-size $(SAMPLE_SIZE) \
+		--chunk-size $(CHUNK_SIZE) \
+		--workers $(WORKERS) \
+		--model $(AUGMENT_MODEL)
 
-# Individual datasets
-augment-emowoz:
-	$(PYTHON) $(SRC_DIR)/augment.py --datasets emowoz --output-dir $(OUT_DIR)
+synthesize:
+	uv run python src/synthesize.py
 
-augment-sgd:
-	$(PYTHON) $(SRC_DIR)/augment.py --datasets sgd --output-dir $(OUT_DIR)
-
-augment-abcd:
-	$(PYTHON) $(SRC_DIR)/augment.py --datasets abcd --output-dir $(OUT_DIR)
-
-augment-spokenwoz:
-	$(PYTHON) $(SRC_DIR)/augment.py --datasets spokenwoz --output-dir $(OUT_DIR)
-
-augment-tm2:
-	$(PYTHON) $(SRC_DIR)/augment.py --datasets tm2 --output-dir $(OUT_DIR)
-
-# Evaluation
-eval-emotion:
-	$(PYTHON) $(SRC_DIR)/evaluate_emotions.py --sample-size ${SAMPLE_SIZE} --workers ${WORKERS} --model ${MODEL} --split ${EMOTION_SPLIT}
-
-# Viewer
-viewer:
-	$(CONDA_RUN) streamlit run viewer.py
-
-# Testing
 test:
-	$(CONDA_RUN) pytest tests/augmentation/ -v
+	uv run pytest tests/augmentation/ -v
 
 lint:
-	$(CONDA_RUN) ruff check $(SRC_DIR)/augmentation/
+	uv run ruff check src/augmentation/
 
-# Cleanup
 clean:
 	rm -rf $(OUT_DIR)
 	find . -type d -name __pycache__ -exec rm -rf {} + 2>/dev/null || true
 	find . -type f -name "*.pyc" -delete 2>/dev/null || true
+
+download:
+	bash scripts/download_dataset.sh $(DOWNLOAD_DATASETS)
+
+download-help:
+	bash scripts/download_dataset.sh --help

@@ -1,9 +1,6 @@
 """Unit tests for cross-turn slot segmentation."""
 
 import pytest
-from pathlib import Path
-import sys
-sys.path.insert(0, str(Path(__file__).parent.parent.parent / "src"))
 
 from augmentation.segmentation.rules import (
     segment_phone,

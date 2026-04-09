@@ -20,6 +20,23 @@ USER_FIRST_TEMPLATES = [
     "My {slot_name} is {value}",
     "The {slot_name} is {value}",
     "It's {value}",
+    "Sure, it's {value}",
+    "Yes, {value}",
+    "Okay, {value}",
+    "So {value}",
+    "The first part is {value}",
+    "Starting with {value}",
+    "It starts with {value}",
+    "Let me give you my {slot_name}. It's {value}",
+    "Here's my {slot_name}: {value}",
+    "For the {slot_name}, it's {value}",
+    "Yeah, so {value}",
+    "Right, so it's {value}",
+    "Um, {value}",
+    "Let's see, {value}",
+    "Alright, {value}",
+    "That would be {value}",
+    "It begins with {value}",
 ]
 
 USER_CONTINUE_TEMPLATES = [
@@ -27,12 +44,41 @@ USER_CONTINUE_TEMPLATES = [
     "Then {value}",
     "Next is {value}",
     "Followed by {value}",
+    "{value}",
+    "And {value}",
+    "Next, {value}",
+    "Then it's {value}",
+    "After that, {value}",
+    "Continuing, {value}",
+    "The next part is {value}",
+    "Then comes {value}",
+    "Moving on, {value}",
+    "Next up, {value}",
+    "And the next is {value}",
+    "Following that, {value}",
+    "Then we have {value}",
+    "Okay, then {value}",
+    "Alright, {value}",
+    "So then {value}",
 ]
 
 USER_CONFIRM_CONTINUE_TEMPLATES = [
     "Yes. And then {value}",
     "That's right. Then {value}",
     "Correct. Next is {value}",
+    "Yeah. {value}",
+    "Right. Then {value}",
+    "Yep. And {value}",
+    "Correct. {value}",
+    "Yes, that's right. {value}",
+    "Exactly. Then {value}",
+    "That's correct. And {value}",
+    "Mm-hmm. {value}",
+    "Yes, exactly. {value}",
+    "You got it. Then {value}",
+    "That's it. Next is {value}",
+    "Right, right. {value}",
+    "Uh-huh. And then {value}",
 ]
 
 USER_CORRECTION_TEMPLATES = [
@@ -40,17 +86,63 @@ USER_CORRECTION_TEMPLATES = [
     "Wait, no. {value}",
     "Actually, {value}",
     "Sorry, I meant {value}",
+    "Oh, sorry. {value}",
+    "No wait, {value}",
+    "Let me correct that. {value}",
+    "My mistake, {value}",
+    "Oops, {value}",
+    "Hold on, {value}",
+    "Sorry, that's wrong. {value}",
+    "No, no, {value}",
+    "I made a mistake. {value}",
+    "That's not right. {value}",
+    "Hang on, {value}",
+    "Let me fix that. {value}",
+    "No, it's {value}",
+    "Wait, I said that wrong. {value}",
+    "Apologies, {value}",
+    "Oh, I misspoke. {value}",
+]
+
+KEYWORD_CORRECTION_TEMPLATES = [
+    t for t in USER_CORRECTION_TEMPLATES
+    if any(w in t.lower() for w in ["sorry", "wait", "actually", "meant"])
 ]
 
 USER_FINAL_TEMPLATES = [
     "And then {value}",
     "And finally {value}",
     "Last part is {value}",
+    "And the last is {value}",
+    "Finally, {value}",
+    "Ending with {value}",
+    "The rest is {value}",
+    "And {value}",
+    "Last one, {value}",
+    "{value}. That's it.",
+    "The last part is {value}",
+    "And to finish, {value}",
+    "That ends with {value}",
+    "The final part is {value}",
+    "Lastly, {value}",
+    "To complete it, {value}",
+    "And that's {value}",
+    "Wrapping up, {value}",
+    "{value}. Done.",
+    "{value}. That's all.",
 ]
 
 USER_DOUBLE_TEMPLATES = [
     "And then double {value}",
     "Then double {value}",
+    "Double {value}",
+    "And double {value}",
+    "{value}, double that",
+    "Two {value}s",
+    "{value} {value}",
+    "That's {value} twice",
+    "{value}, repeated",
+    "Same {value} again",
 ]
 
 # Templates for assistant confirmation
@@ -59,18 +151,77 @@ ASST_CONFIRM_TEMPLATES = [
     "{value}.",
     "Got it, {value}.",
     "Okay, {value}.",
+    "{value}, got it.",
+    "Alright, {value}.",
+    "{value}. Go on.",
+    "{value}. And then?",
+    "Okay. {value}.",
+    "Right, {value}.",
+    "{value}. Continue.",
+    "I have {value}. What's next?",
+    "{value}. Please continue.",
+    "That's {value}. Next?",
+    "{value}. Go ahead.",
+    "Okay, I got {value}.",
+    "{value}. What comes next?",
+    "So far {value}. Continue.",
+    "I've got {value}.",
+    "{value}, okay.",
+    "Mm-hmm, {value}.",
+    "{value}. And?",
+    "Alright, {value}. Next?",
+    "Sure, {value}.",
+    "{value}. Keep going.",
 ]
 
 ASST_CORRECTION_CONFIRM_TEMPLATES = [
     "Yes. Okay, so it's {value}.",
     "Got it. {value}.",
     "Understood. {value}.",
+    "No problem. {value}.",
+    "Alright, corrected to {value}.",
+    "Okay, {value} then.",
+    "Right. So {value}.",
+    "Sure, {value}.",
+    "I've updated that to {value}.",
+    "Noted. {value}.",
+    "No worries. {value}.",
+    "Okay, changing that to {value}.",
+    "I'll fix that. {value}.",
+    "Let me update that. {value}.",
+    "Of course. {value}.",
+    "That's fine. {value}.",
+    "Alright, so {value}.",
+    "Okay, got it. {value}.",
+    "Thanks for correcting. {value}.",
+    "I see. {value}.",
 ]
 
 ASST_FINAL_TEMPLATES = [
     "Got it. The full {slot_name} is {full_value}.",
     "Alright. I have {full_value} as your {slot_name}.",
     "Thank you. Your {slot_name} is {full_value}.",
+    "Perfect. So the {slot_name} is {full_value}.",
+    "Great. I've recorded {full_value} for the {slot_name}.",
+    "Okay. That's {full_value} for your {slot_name}.",
+    "Got it. {full_value}. Thank you.",
+    "Alright, {full_value}. I have that down.",
+    "Thank you. I have {full_value}.",
+    "Perfect. {full_value} is confirmed.",
+    "Noted. Your {slot_name} is {full_value}.",
+    "Great, thank you. The {slot_name} is {full_value}.",
+    "Wonderful. I have your {slot_name} as {full_value}.",
+    "Excellent. So that's {full_value}.",
+    "Thank you. I've got {full_value} for the {slot_name}.",
+    "Okay, so the complete {slot_name} is {full_value}.",
+    "All set. Your {slot_name} is {full_value}.",
+    "I have it. {full_value}.",
+    "Thanks. The {slot_name} is confirmed as {full_value}.",
+    "Got it all. {full_value}.",
+    "Perfect, that's {full_value} for your {slot_name}.",
+    "Great. {full_value}. I've noted that.",
+    "Alright, I've recorded {full_value}.",
+    "Thank you for that. {full_value}.",
 ]
 
 
@@ -133,7 +284,8 @@ def generate_crossturn_dialogue(
         
         # User turn
         if is_correction:
-            template = random.choice(USER_CORRECTION_TEMPLATES)
+            template_pool = KEYWORD_CORRECTION_TEMPLATES or USER_CORRECTION_TEMPLATES
+            template = random.choice(template_pool)
             user_text = template.format(value=segment)
         elif is_first:
             template = random.choice(USER_FIRST_TEMPLATES)
