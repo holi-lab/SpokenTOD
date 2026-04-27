@@ -18,9 +18,7 @@ FILLERS: dict[str, list[str]] = {
 FP = "FP"
 DM = "DM"
 EDIT = "EDIT"
-PRO = "PRO"
 REP = "REP"
-SLR = "SLR"
 COR = "COR"
 RST = "RST"
 
