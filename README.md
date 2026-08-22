@@ -1,11 +1,20 @@
 # SpokenTOD
 
+<p>
+  <a href="https://huggingface.co/datasets/holi-lab/SpokenTOD">
+    <img src="https://img.shields.io/badge/huggingface-%23FFD21E.svg?style=for-the-badge&logo=huggingface&logoColor=white" />
+  </a>
+  <a href="https://arxiv.org/abs/2603.16783">
+    <img src="https://img.shields.io/badge/arXiv-2603.16783-b31b1b.svg?style=for-the-badge" />
+  </a>
+</p>
+
 SpokenTOD is a large-scale spoken task-oriented dialogue (TOD) dataset built by
 augmenting existing TOD benchmarks with realistic spoken behaviors and emotion
 labels, then optionally synthesizing speech. This repository implements the
-SpokenTOD construction pipeline described in our paper.
+SpokenTOD construction pipeline described in our paper. We use SpokenTOD to train [SpokenUS: A Spoken User Simulator for Task-Oriented Dialogue](https://arxiv.org/abs/2603.16783v1).
 
-## What this repository provides
+## We provide
 
 - **Source datasets**: SpokenWOZ, EmoWOZ, SGD, TaskMaster-2, ABCD
 - **Augmentations**
@@ -32,7 +41,7 @@ SpokenTOD construction pipeline described in our paper.
 # Create/update the project virtualenv (.venv) and install the package
 uv sync
 
-# Optional extras
+# Optional extras for speech systhesis, we use Qwen3-TTS.
 uv sync --extra synthesis
 
 # Activate the environment only if you want an interactive shell inside it
@@ -163,19 +172,77 @@ uv lock
   - FP (filled pause), DM (discourse marker), EDIT (editing term)
   - REP (repetition), RST (restart), COR (correction)
 
+## License
+
+Code: MIT License.
+
+## Dataset License
+
+SpokenTOD contains data derived from multiple source datasets. Each source
+dataset remains subject to the license below; the source-specific terms control
+the portions derived from that dataset. Please retain the required attribution
+and cite the corresponding source publications when using the data.
+
+### SpokenWOZ
+
+[SpokenWOZ](https://spokenwoz.github.io/) is distributed under the
+[Creative Commons Attribution-NonCommercial 4.0 International (CC BY-NC 4.0)](https://creativecommons.org/licenses/by-nc/4.0/)
+license. Use of SpokenTOD records derived from SpokenWOZ is limited to
+non-commercial use and requires attribution to the SpokenWOZ authors.
+
+### EmoWOZ
+
+[EmoWOZ](https://zenodo.org/records/14810836) is released under the
+[Creative Commons Attribution-NonCommercial 4.0 International (CC BY-NC 4.0)](https://creativecommons.org/licenses/by-nc/4.0/)
+license. Use of SpokenTOD records derived from EmoWOZ is limited to
+non-commercial use and requires attribution to the EmoWOZ authors.
+
+### Schema-Guided Dialogue (SGD)
+
+The [Schema-Guided Dialogue dataset](https://github.com/google-research-datasets/dstc8-schema-guided-dialogue)
+is released under the
+[Creative Commons Attribution-ShareAlike 4.0 International (CC BY-SA 4.0)](https://creativecommons.org/licenses/by-sa/4.0/)
+license. Derived portions must preserve attribution and comply with the
+ShareAlike requirement.
+
+### ABCD
+
+The [Action-Based Conversations Dataset (ABCD)](https://github.com/asappresearch/abcd)
+is released under the [MIT License](https://github.com/asappresearch/abcd/blob/master/LICENSE).
+Please retain the required copyright and license notices for derived portions.
+
+### Taskmaster-2
+
+[Taskmaster-2](https://github.com/google-research-datasets/Taskmaster/tree/master/TM-2-2020)
+is made available by Google LLC under the
+[Creative Commons Attribution 4.0 International (CC BY 4.0)](https://creativecommons.org/licenses/by/4.0/)
+license. Derived portions require attribution to the Taskmaster-2 authors.
+
+### Speech Accent Archive
+
+Reference audio from the [Speech Accent Archive](https://accent.gmu.edu/)
+(Steven H. Weinberger and Matthew C. Kelley, George Mason University) was used
+solely as reference audio during speech synthesis. The original Speech Accent
+Archive recordings, transcripts, and associated metadata are **not** included
+in this release. Copyright © The Speech Accent Archive; use is subject to the
+Archive's [official terms and license information](https://accent.gmu.edu/about/).
+
+Please cite the Speech Accent Archive as recommended by its
+[citation guidance](https://accent.gmu.edu/howto/), in addition to citing the
+SpokenTOD project and any relevant original source datasets.
+
 ## Citation
 
 If you use this pipeline or dataset, please cite our paper and the original source datasets (SpokenWOZ, EmoWOZ, SGD, TaskMaster-2, ABCD, SpeechAccentArchive) and Qwen3-TTS.
 
 ```
-@article{spokentod,
-  title   = {SpokenUS: A Large-Scale Spoken Task-Oriented Dialogue Dataset},
-  author  = {TBD},
-  journal = {TBD},
-  year    = {2025}
+@misc{lee2026spokenusspokenusersimulator,
+      title={SpokenUS: A Spoken User Simulator for Task-Oriented Dialogue}, 
+      author={Jonggeun Lee and Junseong Pyo and Jeongmin Park and Yohan Jo},
+      year={2026},
+      eprint={2603.16783},
+      archivePrefix={arXiv},
+      primaryClass={cs.CL},
+      url={https://arxiv.org/abs/2603.16783}, 
 }
 ```
-
-## License
-
-MIT License.
